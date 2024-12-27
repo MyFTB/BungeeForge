@@ -1,0 +1,42 @@
+package ua.caunt.bungeeforge;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
+
+import static ua.caunt.bungeeforge.BungeeForge.MOD_ID;
+
+// An example config class. This is not required, but it's a good idea to have one to keep your config organized.
+// Demonstrates how to use Neo's config APIs
+@EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+public class Config
+{
+    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+
+    // a list of strings that are treated as resource locations for items
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> MODDED_ARGUMENT_TYPES = BUILDER
+            .comment( "List of argument types that are not vanilla but are integrated into the server (found in the Vanilla registry)")
+            .defineListAllowEmpty("moddedArgumentTypes", List.of("livingthings:sampler_types"), Config::validate);
+
+    static final ModConfigSpec SPEC = BUILDER.build();
+
+    private static boolean validate(final Object obj)
+    {
+        return obj instanceof String;
+    }
+
+    @SubscribeEvent
+    static void onLoad(final ModConfigEvent event)
+    {
+        // convert the list of strings into a set of items
+        BungeeForge.moddedArgumentTypes.addAll(MODDED_ARGUMENT_TYPES.get());
+    }
+}

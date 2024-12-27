@@ -3,6 +3,7 @@ package ua.caunt.bungeeforge.mixin.network.protocol.handshake;
 import com.google.gson.Gson;
 import com.mojang.authlib.properties.Property;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.handshake.ClientIntentionPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,8 +14,8 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 
-@Mixin(net.minecraft.network.protocol.handshake.ClientIntentionPacket.class)
-public class ClientIntentionPacket implements ClientIntentionPacketBridge {
+@Mixin(ClientIntentionPacket.class)
+public class ClientIntentionPacketMixin implements ClientIntentionPacketBridge {
     @Unique
     private static String bungee$spoofedAddress;
     @Unique
@@ -36,24 +37,26 @@ public class ClientIntentionPacket implements ClientIntentionPacketBridge {
         var properties = bungee$gson.fromJson(chunks[3], Property[].class);
 
         bungee$spoofedAddress = chunks[1];
-        bungee$spoofedId = UUID.fromString(ensureDashesInUuid(chunks[2]));
+        bungee$spoofedId = UUID.fromString(bungeeForge$ensureDashesInUuid(chunks[2]));
         bungee$spoofedProperties = Arrays.stream(properties)
-                .filter(packet -> !isFmlMarker(packet))
+                .filter(packet -> !bungeeForge$isFmlMarker(packet))
                 .toArray(Property[]::new);
 
         return Arrays.stream(properties)
-                .filter(ClientIntentionPacket::isFmlMarker)
+                .filter(ClientIntentionPacketMixin::bungeeForge$isFmlMarker)
                 .findFirst()
                 .map(property -> chunks[1] + "\0" + property.value().split("\u0001")[1] + "\0")
                 .orElseGet(() -> chunks[1]);
     }
 
-    private static boolean isFmlMarker(Property property)
+    @Unique
+    private static boolean bungeeForge$isFmlMarker(Property property)
     {
         return Objects.equals(property.name(), "extraData") && property.value().startsWith("\u0001FORGE");
     }
 
-    private static String ensureDashesInUuid(String source) {
+    @Unique
+    private static String bungeeForge$ensureDashesInUuid(String source) {
         if (source.length() > 32)
             return source;
 

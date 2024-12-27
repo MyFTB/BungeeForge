@@ -2,6 +2,7 @@ package ua.caunt.bungeeforge.mixin.server.network;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.network.Connection;
+import net.minecraft.server.network.ServerLoginPacketListenerImpl;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,8 +16,8 @@ import ua.caunt.bungeeforge.bridge.server.network.ServerLoginPacketListenerImplB
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
-@Mixin(net.minecraft.server.network.ServerLoginPacketListenerImpl.class)
-public class ServerLoginPacketListenerImpl implements ServerLoginPacketListenerImplBridge {
+@Mixin(ServerLoginPacketListenerImpl.class)
+public class ServerLoginPacketListenerImplMixin implements ServerLoginPacketListenerImplBridge {
     @Final
     @Shadow
     Connection connection;

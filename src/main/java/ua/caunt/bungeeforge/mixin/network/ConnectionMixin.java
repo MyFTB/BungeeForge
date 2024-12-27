@@ -2,12 +2,10 @@ package ua.caunt.bungeeforge.mixin.network;
 
 
 import com.mojang.authlib.properties.Property;
-import io.netty.channel.Channel;
+import net.minecraft.network.Connection;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import ua.caunt.bungeeforge.bridge.network.ConnectionBridge;
 
 import java.net.InetSocketAddress;
@@ -15,8 +13,8 @@ import java.net.SocketAddress;
 import java.util.Optional;
 import java.util.UUID;
 
-@Mixin(value = net.minecraft.network.Connection.class)
-public class Connection implements ConnectionBridge {
+@Mixin(Connection.class)
+public class ConnectionMixin implements ConnectionBridge {
     @Unique
     private String bungee$spoofedAddress;
     @Unique
