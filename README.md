@@ -12,6 +12,11 @@ At first it was developed to support Velocity legacy forwarding but it can also 
 ### WARN: Minecraft 1.13 +
 This modification requires both Proxy and Forge to be compatible. Unfortunately, currently, Forge for Minecraft 1.13 (and newer) is not compatible with proxies due to the lack of a "reset" packet to gracefully reset client registries between server switches. To implement this functionality, there is an available plugin called [Ambassador](https://github.com/adde0109/Ambassador) which was thankfully developed by adde0109. **Install both [BungeeForge](https://github.com/caunt/BungeeForge/releases) and [Ambassador](https://github.com/adde0109/Ambassador/releases) on 1.13+ setups**. For Minecraft 1.12.2 and lower versions, BungeeForge works by itself.
 
+## WARN: Velocity + Modpacks
+The Environment Variable `velocity.max-known-packs` should be set to a high value to prevent the server from disconnecting the player due to the number of mods in the modpack. Try to set it to about 64 + the number of mods in the modpack.
+
+**A too high value can lead to security issues, so be careful!**
+
 ## Other versions
 Other Forge versions can be supported as well. Please feel free to create a Issue and ask.
 
