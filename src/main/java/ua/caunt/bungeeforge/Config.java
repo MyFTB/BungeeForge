@@ -11,12 +11,11 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 
 import static ua.caunt.bungeeforge.BungeeForge.MOD_ID;
 
-// An example config class. This is not required, but it's a good idea to have one to keep your config organized.
-// Demonstrates how to use Neo's config APIs
-@EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = MOD_ID)
 public class Config
 {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
@@ -33,9 +32,11 @@ public class Config
         return obj instanceof String;
     }
 
+
     @SubscribeEvent
-    static void onLoad(final ModConfigEvent event)
+    static void onLoad(ServerAboutToStartEvent event)
     {
+
         // convert the list of strings into a set of items
         BungeeForge.moddedArgumentTypes.addAll(MODDED_ARGUMENT_TYPES.get());
     }
