@@ -1,6 +1,26 @@
 # BungeeForge
+
 BungeeForge is a Forge mod that implements BungeeCord (legacy) protocol.
 At first it was developed to support Velocity legacy forwarding but it can also work for other Bungee proxies. 
+
+## Disclaimer
+
+This Repository is a fork of the original [BungeeForge](https://github.com/caunt/BungeeForge) repository. 
+It also uses Code from the [Proxy-Compatible-Forge](https://github.com/adde0109/Proxy-Compatible-Forge) repository. See `WrappableArgumentNodeStubMixin.java` for more information.
+
+This repository is not affiliated with the original BungeeForge repository. It is a fork that is maintained by the [MyFTB Server Network](https://myftb.de/) Team. Feel free to check out our Minecraft Servers.
+
+## Supported Version of this Fork:
+
+- NeoForge 1.21.1
+
+Every other version is and will not be supported by this fork. If you have issues with other versions, please refer to the original repository.
+
+## Changes of this Fork:
+
+- Added support for NeoForge 1.21.1
+- Added Fix for Argument Errors in NeoForge 1.21.1
+- Disables users to join if they are not coming from a proxy
 
 ## Usage:
 - Download the mod into mods/ directory on your server
@@ -16,18 +36,3 @@ This modification requires both Proxy and Forge to be compatible. Unfortunately,
 The Environment Variable `velocity.max-known-packs` should be set to a high value to prevent the server from disconnecting the player due to the number of mods in the modpack. Try to set it to about 64 + the number of mods in the modpack.
 
 **A too high value can lead to security issues, so be careful!**
-
-## Other versions
-Other Forge versions can be supported as well. Please feel free to create a Issue and ask.
-
-# Support This Project
-
-If you find this project helpful and would like to support its development, consider making a donation. Your contribution helps maintain and improve the project.
-
-- **[Donate with PayPal](https://www.paypal.com/donate/?hosted_button_id=BH7PCQXDM8EKN)**: You can use PayPal to make a one-time or recurring donation.
-
-- **Bitcoin**: If you prefer cryptocurrency, you can send Bitcoin to the following address: `bc1qt0j847jw44sfhd9qvhwyxp0hd9nfu7wcfnm9hs`
-
-- **Ethereum**: For Ethereum and ERC20 donations, use the following address: `0x9D9c94bD50DA22a486a6ba6845f3c268DCc8CbE4`
-
-Your support is greatly appreciated!
