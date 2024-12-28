@@ -1,9 +1,15 @@
 package ua.caunt.bungeeforge.mixin.server.network;
 
 import com.mojang.authlib.GameProfile;
+import com.mojang.logging.LogUtils;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.network.Connection;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.network.ServerLoginPacketListenerImpl;
 import org.objectweb.asm.Opcodes;
+import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -14,10 +20,14 @@ import ua.caunt.bungeeforge.bridge.network.ConnectionBridge;
 import ua.caunt.bungeeforge.bridge.server.network.ServerLoginPacketListenerImplBridge;
 
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
 @Mixin(ServerLoginPacketListenerImpl.class)
 public class ServerLoginPacketListenerImplMixin implements ServerLoginPacketListenerImplBridge {
+    @Unique
+    private static final Logger bungeeForge$LOGGER = LogUtils.getLogger();
+
     @Final
     @Shadow
     Connection connection;
@@ -34,6 +44,9 @@ public class ServerLoginPacketListenerImplMixin implements ServerLoginPacketList
 
         if (!connectionBridge.bungee$hasSpoofedProfile()) {
             authenticatedProfile = value;
+            MutableComponent component = Component.literal("If you wish to use IP forwarding, please enable it in your BungeeCord/Velocity config as well!");
+            component.setStyle(component.getStyle().withColor(ChatFormatting.RED));
+            connection.disconnect(component);
             return;
         }
 
